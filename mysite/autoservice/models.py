@@ -19,7 +19,7 @@ class Car(models.Model):
     client_name = models.CharField()
 
     def __str__(self):
-        return self.license_plate
+        return f"{self.make} {self.model}"
 
 
 class Order(models.Model):
