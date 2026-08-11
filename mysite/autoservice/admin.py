@@ -4,6 +4,8 @@ from .models import Service, Car, Order, OrderLine
 class OrderLineInLine(admin.TabularInline):
     model = OrderLine
     extra = 0
+    readonly_fields = ['line_sum', 'service_price']
+    fields = ['service', 'quantity', 'service_price', 'line_sum']
 
 
 class OrderAdmin(admin.ModelAdmin):

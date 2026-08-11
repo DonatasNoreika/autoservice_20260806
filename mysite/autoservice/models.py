@@ -39,5 +39,11 @@ class OrderLine(models.Model):
                                 null=True, blank=True)
     quantity = models.IntegerField(default=1)
 
+    def line_sum(self):
+        return self.service.price * self.quantity
+
+    def service_price(self):
+        return self.service.price
+
     def __str__(self):
         return f"{self.service} - {self.quantity}"
