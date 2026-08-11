@@ -28,12 +28,20 @@ class Order(models.Model):
                             null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
+    def total(self):
+        result = 0
+        for line in self.lines.all():
+            result += line.service.price * line.quantity
+        return result
+
     def __str__(self):
         return f"{self.car} ({self.date})"
 
 
 class OrderLine(models.Model):
-    order = models.ForeignKey(to="Order", on_delete=models.CASCADE)
+    order = models.ForeignKey(to="Order",
+                              on_delete=models.CASCADE,
+                              related_name="lines")
     service = models.ForeignKey(to="Service",
                                 on_delete=models.SET_NULL,
                                 null=True, blank=True)
