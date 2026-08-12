@@ -28,6 +28,15 @@ class Order(models.Model):
                             null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True)
 
+    LOAN_STATUS = (
+        ('p', 'Patvirtinta'),
+        ('v', 'Vykdoma'),
+        ('i', 'Įvykdyta'),
+        ('a', 'Atmesta'),
+    )
+
+    status = models.CharField(choices=LOAN_STATUS, default='p')
+
     def total(self):
         result = 0
         for line in self.lines.all():
