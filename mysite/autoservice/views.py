@@ -1,5 +1,11 @@
 from django.shortcuts import render
+from .models import Service, Car, Order
 
 # Create your views here.
 def index(request):
-    return render(request, template_name="index.html")
+    context = {
+        'num_cars': Car.objects.count(),
+        'num_services': Service.objects.count(),
+        'num_orders_done': Order.objects.filter(status='i').count(),
+    }
+    return render(request, template_name="index.html", context=context)
