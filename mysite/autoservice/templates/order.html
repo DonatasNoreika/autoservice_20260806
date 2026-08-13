@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Taisymas{% endblock %}
+
+{% block content %}
+<h1>{{ order.car }} taisymas</h1>
+<p>Data: {{ order.date }}</p>
+<p>Būsena: {{ order.get_status_display }}</p>
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Paslauga</th>
+        <th>Kaina</th>
+        <th>Kiekis</th>
+        <th>Suma</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for line in order.lines.all %}
+    <tr>
+        <td>{{ line.service.name }}</td>
+        <td>{{ line.service.price }}</td>
+        <td>{{ line.quantity }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
