@@ -9,3 +9,9 @@ def index(request):
         'num_orders_done': Order.objects.filter(status='i').count(),
     }
     return render(request, template_name="index.html", context=context)
+
+def cars(request):
+    context = {
+        'cars': Car.objects.all(),
+    }
+    return render(request, template_name='cars.html', context=context)
