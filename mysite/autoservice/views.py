@@ -15,3 +15,10 @@ def cars(request):
         'cars': Car.objects.all(),
     }
     return render(request, template_name='cars.html', context=context)
+
+
+def car(request, pk):
+    context = {
+        'car': Car.objects.get(pk=pk)
+    }
+    return render(request, template_name="car.html", context=context)

@@ -25,7 +25,8 @@ class Car(models.Model):
 class Order(models.Model):
     car = models.ForeignKey(to="Car",
                             on_delete=models.SET_NULL,
-                            null=True, blank=True)
+                            null=True, blank=True,
+                            related_name="orders")
     date = models.DateTimeField(auto_now_add=True)
 
     LOAN_STATUS = (
