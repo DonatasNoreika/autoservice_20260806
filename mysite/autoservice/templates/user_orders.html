@@ -5,6 +5,6 @@
 {% block content %}
 <h1>Mano taisymai:</h1>
 {% for order in orders %}
-<p>{{ order }}</p>
+<p><a href="{% url 'order' order.pk %}">{{ order }}</a></p>
 {% endfor %}
 {% endblock %}
