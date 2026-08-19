@@ -30,6 +30,7 @@ class Order(models.Model):
                             null=True, blank=True,
                             related_name="orders")
     date = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(null=True, blank=True)
 
     LOAN_STATUS = (
         ('p', 'Patvirtinta'),
