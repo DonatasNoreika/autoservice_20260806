@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -38,6 +39,9 @@ class Order(models.Model):
     )
 
     status = models.CharField(choices=LOAN_STATUS, default='p')
+    client = models.ForeignKey(to=User,
+                               on_delete=models.SET_NULL,
+                               null=True, blank=True)
 
     def total(self):
         result = 0
