@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.utils import timezone
 
 # Create your models here.
 
@@ -49,6 +49,9 @@ class Order(models.Model):
         for line in self.lines.all():
             result += line.service.price * line.quantity
         return result
+
+    def is_overdue(self):
+        return self.deadline and timezone.now() > self.deadline
 
     def __str__(self):
         return f"{self.car} ({self.date})"
