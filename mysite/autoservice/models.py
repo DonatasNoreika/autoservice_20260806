@@ -75,3 +75,21 @@ class OrderLine(models.Model):
 
     def __str__(self):
         return f"{self.service} - {self.quantity}"
+
+
+class OrderComment(models.Model):
+    order = models.ForeignKey(to="Order",
+                              on_delete=models.SET_NULL,
+                              null=True, blank=True,
+                              related_name="comments")
+    author = models.ForeignKey(to=User,
+                               on_delete=models.SET_NULL,
+                               null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(max_length=1000)
+
+    class Meta:
+        ordering = ['-pk']
+
+    def __str__(self):
+        return self.content
