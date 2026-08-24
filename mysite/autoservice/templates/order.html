@@ -12,7 +12,12 @@
     </span>
 </p>
 <p>Būsena: {{ order.get_status_display }}</p>
-<p>Klientas: {{ order.client }}</p>
+<p>Klientas:
+    {% if order.client.profile.photo %}
+        <img src="{{ order.client.profile.photo.url }}" class="rounded-circle" style="width: 30px">
+    {% endif %}
+    {{ order.client }}
+</p>
 
 <table class="table table-hover">
     <thead>
@@ -48,8 +53,14 @@
 </form>
 {% endif %}
 {% for comment in order.comments.all %}
-<p><strong>{{ comment.author }}</strong>, <em>{{ comment.date }}</em><br>
-{{ comment.content }}</p>
+<p>
+    {% if comment.author.profile.photo %}
+        <img src="{{ comment.author.profile.photo.url }}" class="rounded-circle" style="width: 30px">
+    {% endif %}
+    <strong>{{ comment.author }}</strong>, <em>{{ comment.date }}</em>
+    <br>
+    {{ comment.content }}
+</p>
 {% empty %}
 <p>Komentarų nėra</p>
 {% endfor %}
