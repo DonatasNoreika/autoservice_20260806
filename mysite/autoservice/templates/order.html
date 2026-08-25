@@ -18,6 +18,11 @@
     {% endif %}
     {{ order.client }}
 </p>
+{% if order.client == user %}
+<div class="my-2">
+    <a class="btn btn-warning" href="{% url 'user_orders_update' order.pk %}">Redaguoti</a>
+</div>
+{% endif %}
 
 <table class="table table-hover">
     <thead>

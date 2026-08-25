@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, reverse, redirect
 from django.views.generic.edit import FormMixin
 from .models import Service, Car, Order
@@ -124,6 +124,15 @@ class UserOrderCreateView(LoginRequiredMixin, generic.CreateView):
         form.instance.client = self.request.user
         form.save()
         return super().form_valid(form)
-    
 
+class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Order
+    fields = ['car', 'deadline', 'status']
+    template_name = "user_order_form.html"
+
+    def get_success_url(self):
+        return reverse("order", kwargs={"pk": self.object.pk})
+
+    def test_func(self):
+        return self.get_object().client == self.request.user
 
