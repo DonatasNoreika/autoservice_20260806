@@ -4,6 +4,9 @@
 
 {% block content %}
 <h1>Mano taisymai:</h1>
+<div class="my-2">
+    <a class="btn btn-primary" href="{% url 'user_orders_create' %}">Naujas taisymas</a>
+</div>
 {% for order in orders %}
 <p>
     <a href="{% url 'order' order.pk %}" class="{% if order.is_overdue %}text-danger{% endif %}">
