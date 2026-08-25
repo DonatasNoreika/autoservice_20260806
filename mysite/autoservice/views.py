@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, reverse, redirect
 from django.views.generic.edit import FormMixin
-from .models import Service, Car, Order
+from .models import Service, Car, Order, OrderLine
 from django.views import generic
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -150,3 +150,43 @@ class UserOrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delet
 
     def test_func(self):
         return self.get_object().client == self.request.user
+
+
+class UserOrderLineCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
+    model = OrderLine
+    fields = ['service', 'quantity']
+    template_name = "user_orderline_form.html"
+
+    def get_success_url(self):
+        return reverse("order", kwargs={"pk": self.object.order.pk})
+
+    def test_func(self):
+        return Order.objects.get(pk=self.kwargs['pk']).client == self.request.user
+
+    def form_valid(self, form):
+        form.instance.order = Order.objects.get(pk=self.kwargs['pk'])
+        return super().form_valid(form)
+
+
+class UserOrderLineUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = OrderLine
+    fields = ['service', 'quantity']
+    template_name = "user_orderline_form.html"
+
+    def get_success_url(self):
+        return reverse("order", kwargs={"pk": self.object.order.pk})
+
+    def test_func(self):
+        return self.get_object().order.client == self.request.user
+
+
+class UserOrderLineDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = OrderLine
+    template_name = "user_orderline_delete.html"
+    context_object_name = "orderline"
+
+    def get_success_url(self):
+        return reverse("order", kwargs={"pk": self.object.order.pk})
+
+    def test_func(self):
+        return self.get_object().order.client == self.request.user
