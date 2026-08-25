@@ -120,3 +120,10 @@ class UserOrderCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "user_order_form.html"
     success_url = reverse_lazy("user_orders")
 
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        form.save()
+        return super().form_valid(form)
+    
+
+
