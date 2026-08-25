@@ -7,7 +7,10 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from .forms import OrderCommentForm, UserChangeForm, ProfileChangeForm
+from .forms import (OrderCommentForm,
+                    UserChangeForm,
+                    ProfileChangeForm,
+                    OrderForm)
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -116,7 +119,8 @@ class UserOrderListView(LoginRequiredMixin, generic.ListView):
 
 class UserOrderCreateView(LoginRequiredMixin, generic.CreateView):
     model = Order
-    fields = ['car', 'deadline', 'status']
+    # fields = ['car', 'deadline', 'status']
+    form_class = OrderForm
     template_name = "user_order_form.html"
     success_url = reverse_lazy("user_orders")
 
@@ -127,7 +131,8 @@ class UserOrderCreateView(LoginRequiredMixin, generic.CreateView):
 
 class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Order
-    fields = ['car', 'deadline', 'status']
+    # fields = ['car', 'deadline', 'status']
+    form_class = OrderForm
     template_name = "user_order_form.html"
 
     def get_success_url(self):
